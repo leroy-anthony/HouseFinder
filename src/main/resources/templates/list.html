@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico" />
+
+<title>Navbar Template for Bootstrap</title>
+
+<!-- Bootstrap core CSS -->
+<link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+<link href="../static/css/custom.css" rel="stylesheet" th:href="@{/css/custom.css}" />
+<head>
+<meta charset="utf-8">
+<title>Résultat</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="#">HouseFinder</a>
+		<ul class="navbar-nav mr-auto">
+		</ul>
+		<span class="navbar-brand">&copy; Anthony Leroy</span>
+	</nav>
+
+	<main role="main" class="container">
+
+<div class="jumbotron">
+        <div class="container">
+          <h1 class="display-3">HouseFinder</h1>
+          
+		<form class="form-inline my-2 my-lg-0" action="#" th:action="@{/search}" th:object="${size}">
+			<input class="form-control mr-sm-2" type="text" name="codeinsee" th:value="${codeinsee}" placeholder="insee" aria-label="insee">
+			<input class="form-control mr-sm-2" type="text" name="size" th:value="${size}" placeholder="size" aria-label="size">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+		</form>
+		<hr>
+          <div class="result" th:if="${size != null}">
+          	<h2 th:inline="text" >[[${parcelles.size()}]] result(s) for [[${size+'m2'}]] at [[${codeinsee}]]</h2>
+          </div>
+        </div>
+      </div>
+
+		<div class="row" th:each="p,iter : ${parcelles}">
+			<div class="col-md-12">
+				<h2 th:text="${'#'+ (iter.index +1) + ' - ' + p.address.label}"></h2>
+				<div>
+					<ul>
+						<li th:text="${'Préfixe: '+p.prefixe+', section: '+p.section+', numéro: '+p.numero}" />
+						<li th:text="${'Latitude: '+p.lat+', longitude: '+p.lon}" />
+					</ul>
+				</div>
+				<a class="btn btn-secondary" th:href="${p.urlFranceCadastre}" role="button" target="_blank">View on cadastre »</a>
+				<a class="btn btn-secondary" th:href="${p.urlGoogleMapsSearch}" role="button" target="_blank">View on google maps »</a>
+			</div>
+		</div>
+	</main><!-- /.container -->
+	
+	
+	<!-- Bootstrap core JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+</body>
+</html>
